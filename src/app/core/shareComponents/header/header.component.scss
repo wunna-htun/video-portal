@@ -1,22 +1,10 @@
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #12123D;
-    color: #fff;
-  }
+.back-link {
+  text-decoration: none; /* Remove underline */
+  color: #fff; /* Set the link color to blue or your desired color */
+  font-weight: bold; /* Make the text bold if needed */
+}
 
-  .logo img {
-    max-height: 40px;
-  }
-  
-  .user-profile img {
-    max-height: 40px;
-    border-radius: 50%;
-  }
 
-*{
-    margin: 0;
-    padding: 0;
+.custom-ml{
+  margin-left: 20px; /* Adjust the value as needed */
 }

@@ -2,6 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { RouteService } from '../../services/route.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -9,64 +13,41 @@ import { RouteService } from '../../services/route.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit{
-  @Input() userName?: string;
-  isMainRoute = false;
-  isDetailsRoute = false;
-  private currentRoute = new BehaviorSubject<string>(''); // Initialize with an empty string
+  checkMainRoute:boolean=false;
+  loggedInUser?:User
+  currentUrl$ = new BehaviorSubject<string | undefined>(undefined);
 
-  constructor(private router: Router,private route: ActivatedRoute ,private routeService:RouteService) {
+  constructor(private router: Router, private userService: UserService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.currentRoute.next(event.url);
+        this.currentUrl$.next(event.url);
       }
     });
   }
 
-
-
-
-
-  ngOnInit() {
-
-    this.routeService.getCurrentRoute().subscribe((currentRoute:any) => {
-      console.log("currentRoute",currentRoute)
-      this.isMainRoute = currentRoute === '/videos';
-      this.isDetailsRoute = currentRoute.startsWith('/videos/');
-    });
-
-
-    this.route.url.subscribe((segments) => {
-      console.log("segments",segments)
-      const pathArray = segments.map((segment) => segment.path);
-      const currentRoute = pathArray.join('/');
-      console.log("currentRoute",currentRoute)
-      this.isMainRoute = currentRoute === 'videos';
-      this.isDetailsRoute = currentRoute.startsWith('videos/');
-    });
-
-
-    console.log("this.isMainRoute",this.isMainRoute)
-    console.log("current ",this.getCurrentRoute())
-  }
-
-
-  getCurrentRoute() {
-    return this.currentRoute.asObservable();
-  }
-
+   async ngOnInit() {
+    this.isMainRoute().subscribe((mainRoute)=>{
+      this.checkMainRoute=mainRoute
+    })
+ 
+    this.loggedInUser=this.userService.getActiveLogInUser()
   
+    console.log("login user",this.loggedInUser)
 
-  // isMainRoute(): boolean {
-  //   console.log("check main route",this.router.url === '/videos')
-  //   console.log(this.router.url)
-  //   console.log(this.route.snapshot.url)
-  //   return this.router.url === '/videos';
-  // }
+  }
 
-  // isDetailsRoute(): boolean {
-  //   return this.router.url === '/details';
-  // }
 
+
+  isMainRoute(): Observable<boolean> {
+    return this.currentUrl$.pipe(
+      map((url) => {
+        if (url) {
+          return url === '/videos';
+        }
+        return false;
+      })
+    );
+  }
 
 
 

@@ -1,21 +1,26 @@
-<header>
 
-  <div class="back-button">
-    <!-- Back Button with Angular Router Link -->
-    <a routerLink="/previous-page">
-      <i class="fas fa-arrow-left"></i> Back
+
+<header class="d-flex justify-content-between align-items-center p-3" style="background-color: #12123D; color: #fff;">
+  <div *ngIf="!checkMainRoute"  >
+    <a [routerLink]="'/videos'" class="back-link" >
+      <i class="fas fa-angle-left fa-lg ms-2"></i> Back
     </a>
   </div>
-  
-  <div class="logo">
-    <!-- Company Logo Image -->
-    <img src="../../../../assets/logo/splyza-logo.png" alt="Company Logo">
+
+  <div *ngIf="checkMainRoute" class="logo custom-ml" >
+    <img src="../../../../assets/logo/SPLYZA Logo 1.svg" alt="Company Logo" class="img-fluid" style="max-height: 40px;">
   </div>
 
-  <div class="user-profile">
-    <!-- User Profile Avatar -->
-    <img src="../../../../assets/images/avator.svg" alt="User Avatar">
-    <!-- User Name -->
-    <span>Wunna </span>
+  <div class="d-flex align-items-center gap-1 user-profile">
+    <img [src]="loggedInUser?.pictureUrl" alt="User Avatar" class="img-fluid" style="max-height: 30px; border-radius: 50%;">
+    <span class="p-2">Tanaka Shigeru</span>
   </div>
+
 </header>
+
+
+
+
+
+ 
+

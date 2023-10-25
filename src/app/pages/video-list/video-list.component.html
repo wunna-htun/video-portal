@@ -1,1 +1,72 @@
-<p>video-list works!</p>
+<div class="container">
+    <div class="d-flex justify-content-end gap-1 mb-4 mt-4">
+      <!-- Button Group for View Switch -->
+      <ng-container *ngFor="let view of viewList; let i = index">
+        <div
+          class="py-2 px-4 text-center border rounded-lg cursor-pointer"
+          [ngClass]="{ 'bg-light': view.active }"
+          (click)="onChangeView(i)"
+        >
+
+          <i [class]="view.icon"  style="font-size: 1.5rem"></i>
+        </div>
+      </ng-container>
+    </div>
+  
+ 
+
+    <ng-container *ngIf="activeViewMode.view == 'grid'; else showListMode">
+        <div class="row">
+          <ng-container *ngFor="let video of allVideoList">
+            <div class="col-12 col-md-6 col-lg-4 cursor-pointer mb-5">
+              <div class="card hover-card">
+                <div class="aspect-ratio-container">
+                  <img [alt]="video.title" [src]="video.previewUrl" class="img-fluid card-img-top" />
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">{{ video.title }}</h4>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <span>{{ video.createdDate | date : "MM/dd/yyyy" }}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <img [src]="video.author.pictureUrl" class="mr-2 rounded-circle" style="max-height: 25px; border-radius: 50%;" />
+                      <span>{{ video.author.name }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      
+  
+    <ng-template #showListMode>
+      <div class="d-flex flex-column">
+        <!-- List View for Videos -->
+        <ng-container *ngFor="let video of allVideoList">
+          <div class="d-flex gap-1 align-items-center border rounded p-2 cursor-pointer">
+            <div class="d-flex gap-5 align-items-center w-100">
+              <div>
+                <img [alt]="video.title" [src]="video.previewUrl" class="img-fluid" />
+              </div>
+              <div>
+                <h4>{{ video.title }}</h4>
+              </div>
+            </div>
+            <div class="d-flex gap-8 justify-content-between align-items-center w-max">
+              <div>
+                <span>{{ video.createdDate }}</span>
+              </div>
+              <div class="d-flex align-items-center">
+                <img [src]="video.author.pictureUrl" class="mr-2 rounded-circle" />
+                <span>{{ video.author.name }}</span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+  </div>
+  
