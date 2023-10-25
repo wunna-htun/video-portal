@@ -1,23 +1,21 @@
-<p>header works!</p>
-<div
-  class="footer-container flex py-2 px-6 gap-2 justify-content-between align-items-center"
->
-  <div [routerLink]="['/']" class="cursor-pointer">
-    <img
-      src="/video-box-frontend/src/assets/logo/splyza-logo.png"
-      alt="splyza-logo"
-      class="w-full"
-    />
+<header>
+
+  <div class="back-button">
+    <!-- Back Button with Angular Router Link -->
+    <a routerLink="/previous-page">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+  </div>
+  
+  <div class="logo">
+    <!-- Company Logo Image -->
+    <img src="../../../../assets/logo/splyza-logo.png" alt="Company Logo">
   </div>
 
-  <!-- <div class="flex align-items-center gap-1">
-    <ng-container *ngIf="loggedInUser">
-      <p-avatar
-        [image]="loggedInUser.pictureUrl"
-        styleClass="mr-2"
-        shape="circle"
-      ></p-avatar>
-      <span> {{ loggedInUser.name }}</span>
-    </ng-container>
-  </div> -->
-</div>
+  <div class="user-profile">
+    <!-- User Profile Avatar -->
+    <img src="../../../../assets/images/avator.svg" alt="User Avatar">
+    <!-- User Name -->
+    <span>Wunna </span>
+  </div>
+</header>

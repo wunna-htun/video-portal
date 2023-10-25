@@ -1,0 +1,22 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #12123D;
+    color: #fff;
+  }
+
+  .logo img {
+    max-height: 40px;
+  }
+  
+  .user-profile img {
+    max-height: 40px;
+    border-radius: 50%;
+  }
+
+*{
+    margin: 0;
+    padding: 0;
+}
