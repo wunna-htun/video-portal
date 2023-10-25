@@ -1,27 +1,75 @@
-# VideoBoxFrontend
+# SPLYZA Video Box Web Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.7.
+Welcome to the SPLYZA Video Box web application project. This application allows users to view and react to videos hosted by a REST API. Here is a guide to help you understand and work on this project.
 
-## Development server
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Requirements](#requirements)
+- [Design Details](#design-details)
+- [Optional Feature](#optional-feature)
+- [REST API Details](#rest-api-details)
+- [Challenge](#challenge)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Project Overview
 
-## Code scaffolding
+SPLYZA Video Box is a web application developed using Angular. It consists of two main screens:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. **Video List Screen (Screen 1)**
+   - Displays a list of all the videos hosted on the cloud service.
+   - Allows users to switch between list and grid views.
+   - Clicking on a video opens the Video Details screen.
+   - Provides a way to interact with video reactions.
 
-## Build
+2. **Video Details Screen (Screen 2)**
+   - Displays the selected video with player controls.
+   - Allows editing of the video title for videos owned by the logged-in user.
+   - Provides options to play/pause the video.
+   - Shows a list of reactions (Stars and Snapshots) associated with the video.
+   - Offers the ability to add reactions at specific timestamps.
+   - Allows users to click on reactions to navigate the video.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Requirements
 
-## Running unit tests
+The application is built using Angular and interacts with a REST API. Here are the core requirements:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Use Angular for development.
+- Implement a Video List screen with the ability to switch between list and grid views.
+- Implement a Video Details screen for viewing and interacting with individual videos.
+- Use REST API endpoints to fetch video data and interactions.
+- Implement features for video reactions, including Stars and Snapshots.
+- Allow users to edit video titles for videos they own.
+- Provide navigation back to the Video List screen.
+- Ensure that modifications to videos are reflected in the Video List.
 
-## Running end-to-end tests
+## Design Details
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+The design details for this application can be found in the [Figma file](https://www.figma.com/file/rl0Uj2w5GWfDBWxGsDkdWJ/DC%E2%9C%85-WEB-CHALLENGE-(design)?type=design&node-id=0%3A1&mode=design&t=QdXnYHjFh51VWTwD-1). Please refer to this file for UI/UX guidance.
 
-## Further help
+## Optional Feature
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+An optional feature you can implement is a visual representation of a star when a user clicks the Star button on the Video Details screen. The star should appear at the bottom right corner of the video and gradually move up the screen, fading out as it goes.
+
+## REST API Details
+
+For handling API requests, you can use the REST API backend provided in the [GitHub repository](https://github.com/splyza/video-box-server/tree/main). Follow the instructions in the README file of that repository to set up the server.
+
+- The provided backend does not have authentication or authorization; it uses a default user for all requests.
+
+## Challenge
+
+Your submission will be evaluated based on the following criteria:
+
+- Code cleanliness, organization, and readability.
+- Functional correctness and completeness of features.
+- Accuracy of implementation relative to the provided design.
+
+## How to Build and Run
+
+To build and run the SPLYZA Video Box web application, follow these steps:
+
+1. Clone the repository containing your Angular project.
+2. Install the necessary dependencies using npm or yarn.
+3. Configure the application to connect to the REST API backend by specifying the correct API endpoint.
+4. Run the Angular application using the command `ng serve`.
+5. Access the application in your web browser at the specified URL (e.g., http://localhost:4200).
+
