@@ -3,8 +3,8 @@
       <!-- Button Group for View Switch -->
       <ng-container *ngFor="let view of viewList; let i = index">
         <div
-          class="py-2 px-4 text-center border rounded-lg cursor-pointer"
-          [ngClass]="{ 'bg-light': view.active }"
+          class="py-2 px-4 text-center  rounded-lg cursor-pointer"
+          [ngClass]="{ 'active-view-btn': view.active }"
           (click)="onChangeView(i)"
         >
 
@@ -18,26 +18,27 @@
     <ng-container *ngIf="activeViewMode.view == 'grid'; else showListMode">
         <div class="row">
           <ng-container *ngFor="let video of allVideoList">
-            <div class="col-12 col-md-6 col-lg-4 cursor-pointer mb-5">
-              <div class="card hover-card">
+            <div class="col-12 col-md-6 col-lg-4 cursor-pointer mb-5" (click)="openVideoDetailPage(video.id)">
+              <div class="hover-card" style="overflow: hidden;">
                 <div class="aspect-ratio-container">
-                  <img [alt]="video.title" [src]="video.previewUrl" class="img-fluid card-img-top" />
+                  <img [alt]="video.title" [src]="video.previewUrl" class="img-fluid card-img-top w-9rem h-7rem" />
                 </div>
-                <div class="card-body">
-                  <h4 class="card-title">{{ video.title }}</h4>
-                  <div class="d-flex justify-content-between align-items-center">
+                <div class="card-body" style="padding: 1rem;">
+                  <h6 class="card-title">{{ video.title }}</h6>
+                  <div class="d-flex justify-content-between align-items-center mt-2">
                     <div>
                       <span>{{ video.createdDate | date : "MM/dd/yyyy" }}</span>
                     </div>
                     <div class="d-flex align-items-center">
                       <img [src]="video.author.pictureUrl" class="mr-2 rounded-circle" style="max-height: 25px; border-radius: 50%;" />
-                      <span>{{ video.author.name }}</span>
+                      <span style="margin-left: 10px;">{{ video.author.name }}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </ng-container>
+          
         </div>
       </ng-container>
       
@@ -46,21 +47,21 @@
       <div class="d-flex flex-column">
         <!-- List View for Videos -->
         <ng-container *ngFor="let video of allVideoList">
-          <div class="d-flex gap-1 align-items-center border rounded p-2 cursor-pointer">
+          <div class=" d-flex gap-1 align-items-center  p-2 hover-card cursor-pointer " (click)="openVideoDetailPage(video.id)">
             <div class="d-flex gap-5 align-items-center w-100">
               <div>
-                <img [alt]="video.title" [src]="video.previewUrl" class="img-fluid" />
+                <img [alt]="video.title" [src]="video.previewUrl" class="img-fluid"  style="max-height: 100px; max-width: 150px;"/>
               </div>
               <div>
-                <h4>{{ video.title }}</h4>
+                <span class="h6">{{ video.title }}</span>
               </div>
             </div>
             <div class="d-flex gap-8 justify-content-between align-items-center w-max">
-              <div>
-                <span>{{ video.createdDate }}</span>
-              </div>
-              <div class="d-flex align-items-center">
-                <img [src]="video.author.pictureUrl" class="mr-2 rounded-circle" />
+              <div class="mr-3" style="margin-right: 20px;">
+                <span>{{ video.createdDate | date : "MM/dd/yyyy" }}</span>
+              </div> 
+              <div class="d-flex align-items-center" style="white-space: nowrap;">
+                <img [src]="video.author.pictureUrl" class="mr-2 rounded-circle" style="max-height: 25px; border-radius: 50%; margin-right: 20px;" />
                 <span>{{ video.author.name }}</span>
               </div>
             </div>

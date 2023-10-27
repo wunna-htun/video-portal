@@ -66,7 +66,7 @@ export class VideoListComponent implements OnInit {
   }
 
   openVideoDetailPage(videoId: any) {
-    this.router.navigate(['/detail-video', videoId]);
+    this.router.navigate(['/videos/', videoId]);
   }
 
   ngOnDestroy(): void {
