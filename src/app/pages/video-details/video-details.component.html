@@ -1,6 +1,6 @@
-<div class="container w-75 m-auto">
+<div class="container w-50 mt-4 ">
     <ng-container *ngIf="videoDetails && loggedInUserDetails && !videoTitleUpdated">
-        <div class="d-flex mb-5 gap-3">
+        <div class="d-flex mb-4 gap-3">
           <div class="w-100">
             <input type="text" [(ngModel)]="videoTitle" class="form-control" />
           </div>
@@ -22,12 +22,12 @@
     <div class="d-flex justify-content-between">
       <div class="d-flex gap-3">
         <button styleClass="btn btn-outline-primary w-50" (click)="videoSaveReaction('snapshot')">
-          <i class="pi pi-camera" style="font-size: 1.5rem"></i>
+          <i class="fa-solid fa-camera" style="font-size: 1.5rem"></i>
           <span class="ml-2 font-weight-bold w-100">Snapshot</span>
         </button>
   
-        <button styleClass="btn btn-outline-primary w-50" (click)="videoSaveReaction('star')">
-          <i class="pi pi-star" style="font-size: 1.5rem"></i>
+        <button styleClass="btn btn-outline-primary w-50 " style="padding: 1rem;" (click)="videoSaveReaction('star')">
+          <i class="fa-solid fa-star" style="font-size: 1.5rem"></i>
           <span class="ml-2 font-weight-bold w-100">Star</span>
         </button>
       </div>
