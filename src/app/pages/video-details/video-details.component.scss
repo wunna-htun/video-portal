@@ -50,16 +50,46 @@
   // }
   
 
-  .star {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: gold;
-    opacity: 0; /* Initial opacity */
-  }
+  // .star {
+  //   position: absolute;
+  //   bottom: 10px;
+  //   right: 10px;
+  //   font-size: 24px;
+  //   color: gold;
+  //   opacity: 0; /* Initial opacity */
+  // }
   
 
+  .star {
+    position: absolute;
+    bottom: 20%; /* Adjust to position it at the bottom right corner */
+    right: 30%; /* Adjust to position it at the bottom right corner */
+    opacity: 0;
+    color: #fff;
+    transform: translateY(100%);
+    transition: all 1s;
+  }
 
+  // .star-overlay {
+  //   position: absolute;
+  //   bottom: 10px; /* Adjust to position it at the bottom */
+  //   right: 10px; /* Adjust to position it at the right */
+  //   font-size: 24px; /* Adjust the size as needed */
+  //   color: gold; /* Star icon color */
+  //   opacity: 0; /* Initial opacity, it can be changed when needed */
+  //   z-index: 1; /* Ensure it's on top of the video */
+  //   transition: all 1s;
+  // }
+  
+
+  .video-conatiner{
+    position: relative;
+  }
+
+  // .star{
+  //   position: absolute;
+  //   bottom: 20%;
+  //   right: 30%;
+  // }
   
   

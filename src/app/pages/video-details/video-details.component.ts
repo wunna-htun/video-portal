@@ -22,6 +22,31 @@ import { User } from 'src/app/core/models/user.interface';
   //   ]),
   // ],
 
+  // animations: [
+  //   trigger('starAnimation', [
+  //     state('visible', style({
+  //       transform: 'translate(0, 0)',
+  //       opacity: 1
+  //     })),
+  //     transition(':enter', [
+  //       style({
+  //         transform: 'translate(0, 100%)',
+  //         opacity: 0
+  //       }),
+  //       animate('1s', style({
+  //         transform: 'translate(0, 0)',
+  //         opacity: 1
+  //       }))
+  //     ]),
+  //     transition(':leave', [
+  //       animate('1s', style({
+  //         transform: 'translate(0, -100%)',
+  //         opacity: 0
+  //       }))
+  //     ])
+  //   ])
+  // ],
+
   animations: [
     trigger('starAnimation', [
       state('visible', style({
@@ -45,7 +70,7 @@ import { User } from 'src/app/core/models/user.interface';
         }))
       ])
     ])
-  ],
+  ]
 
 })
 export class VideoDetailsComponent implements OnInit {
@@ -57,6 +82,7 @@ export class VideoDetailsComponent implements OnInit {
   subscriptions: Subscription[] = [];
   showStar: boolean = true;
   isVideoPlaying: boolean = false;
+  starState = 'visible';
 
   @ViewChild('videoPlayer') videoPlayer!: ElementRef;
 
@@ -81,10 +107,7 @@ export class VideoDetailsComponent implements OnInit {
   }
 
 
-  ngAfterViewInit() {
-    // The @ViewChild element is available here, you can access it safely.
-    console.log('Video player element is available:', this.videoPlayer);
-  }
+
 
   updateVideoTitle(videoId: string) {
     const payload = {
@@ -108,12 +131,28 @@ export class VideoDetailsComponent implements OnInit {
   }
 
 
+  toggleAnimation() {
+    this.starState = this.starState === 'visible' ? 'invisible' : 'visible';
+  }
+
+
   showStarAnimation() {
     console.log("showStarAnimation")
+    console.log('showStar set to true',this.showStar); // Add this for debugging
+
     this.showStar = true;
+    this.cdf.detectChanges(); // Trigger change detection
+
     setTimeout(() => {
       this.showStar = false;
-    }, 1000); // Adjust the time as needed
+      console.log('showStar set to false',this.showStar); // Add this for debugging
+
+      this.cdf.detectChanges(); // Trigger change detection
+
+    }, 10000); // Adjust the time as needed
+
+
+  
   }
 
   async videoSaveReaction(eventType: 'star' | 'snapshot') {
@@ -134,12 +173,15 @@ export class VideoDetailsComponent implements OnInit {
       if (this.videoPlayer.nativeElement.readyState >= 2) {
         const canvas = await html2canvas(this.videoPlayer.nativeElement);
         const snapshotDataUri = canvas.toDataURL('image/png');
-        console.log('Snapshot taken and saved to payload', snapshotDataUri);
+        // console.log('Snapshot taken and saved to payload', snapshotDataUri);
         payload.dataUri = snapshotDataUri;
       } else {
         console.log('Video is not ready for snapshot capture.');
       }
+    }else{
+      this.toggleAnimation();
     }
+    
     console.log("this.videoDetails.previewUrl", this.videoDetails.previewUrl)
 
     this.subscriptions.push(

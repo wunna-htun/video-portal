@@ -12,15 +12,25 @@
     <h4 class="my-4 font-weight-bold">{{ videoDetails?.title }}</h4>
   </ng-container>
 
-  <ng-container *ngIf="videoDetails">
+  <ng-container *ngIf="videoDetails" class="video-conatiner">
     <video #videoPlayer width="100%" height="350" controls class="mb-2" crossorigin="anonymous"
-      (click)="togglePlayState()" (play)="videoPlaying()" (pause)="videoPaused()" (click)="showStarAnimation()">
+      (click)="togglePlayState()" (play)="videoPlaying()" (pause)="videoPaused()" >
       <source [src]="videoDetails?.url" type="video/mp4" />
       Your browser does not support the video tag.
+      <!-- <i class="fa-solid fa-star star-overlay" [@starAnimation]></i> -->
+      <!-- <i class="fa-solid fa-star star " style="font-size: 2rem" [@starAnimation] *ngIf="showStar"></i> -->
+
     </video>
-    <div class="star" [@starAnimation] ></div>
+    <!-- <i class="fa-solid fa-star star " style="font-size: 2rem" [@starAnimation]="showStar" ></i> -->
+
+    <i class="fa-solid fa-star star" style="font-size: 1.5rem" [@starAnimation]="starState"></i>
 
   </ng-container>
+
+
+
+
+
 
   <div class="d-flex justify-content-between">
     <div class="gap-3" style="display: flex; justify-content: space-between;">
