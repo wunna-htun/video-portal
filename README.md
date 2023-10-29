@@ -14,13 +14,38 @@ Welcome to the SPLYZA Video Box web application project. This application allows
 
 SPLYZA Video Box is a web application developed using Angular. It consists of two main screens:
 
+
+## How to Build and Run
+
+To build and run the SPLYZA Video Box web application, follow these steps:
+
+1. Clone the repository containing your Angular project.
+2. Navigate to `video-portal` directory  Install the necessary dependencies using npm or yarn.
+3. Configure the application to connect to the REST API backend by specifying the correct API endpoint.
+4. Run the Angular application using the command `ng serve`.
+5. Access the application in your web browser at the specified URL (e.g., http://localhost:4200).
+
+## REST API Details
+
+For handling API requests, you can use the REST API backend provided in the [GitHub repository](https://github.com/splyza/video-box-server/tree/main). Follow the instructions in the README file of that repository to set up the server.
+
+- The provided backend does not have authentication or authorization; it uses a default user for all requests.
+
+
 1. **Video List Screen (Screen 1)**
+
+
+![Video List Screen](./screenshoot/Vidoe-Grid-List.png)
+
    - Displays a list of all the videos hosted on the cloud service.
    - Allows users to switch between list and grid views.
    - Clicking on a video opens the Video Details screen.
    - Provides a way to interact with video reactions.
 
 2. **Video Details Screen (Screen 2)**
+
+![Video Details Screen](./screenshoot/VideoDetail-loginUser.png)
+
    - Displays the selected video with player controls.
    - Allows editing of the video title for videos owned by the logged-in user.
    - Provides options to play/pause the video.
@@ -45,31 +70,10 @@ The application is built using Angular and interacts with a REST API. Here are t
 
 The design details for this application can be found in the [Figma file](https://www.figma.com/file/rl0Uj2w5GWfDBWxGsDkdWJ/DC%E2%9C%85-WEB-CHALLENGE-(design)?type=design&node-id=0%3A1&mode=design&t=QdXnYHjFh51VWTwD-1). Please refer to this file for UI/UX guidance.
 
-## Optional Feature
 
-An optional feature you can implement is a visual representation of a star when a user clicks the Star button on the Video Details screen. The star should appear at the bottom right corner of the video and gradually move up the screen, fading out as it goes.
 
-## REST API Details
 
-For handling API requests, you can use the REST API backend provided in the [GitHub repository](https://github.com/splyza/video-box-server/tree/main). Follow the instructions in the README file of that repository to set up the server.
 
-- The provided backend does not have authentication or authorization; it uses a default user for all requests.
 
-## Challenge
 
-Your submission will be evaluated based on the following criteria:
-
-- Code cleanliness, organization, and readability.
-- Functional correctness and completeness of features.
-- Accuracy of implementation relative to the provided design.
-
-## How to Build and Run
-
-To build and run the SPLYZA Video Box web application, follow these steps:
-
-1. Clone the repository containing your Angular project.
-2. Install the necessary dependencies using npm or yarn.
-3. Configure the application to connect to the REST API backend by specifying the correct API endpoint.
-4. Run the Angular application using the command `ng serve`.
-5. Access the application in your web browser at the specified URL (e.g., http://localhost:4200).
 

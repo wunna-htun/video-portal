@@ -1,108 +1,88 @@
-<div class="container w-50 mt-4 ">
-    <ng-container *ngIf="videoDetails && loggedInUserDetails && !videoTitleUpdated">
-        <div class="d-flex  gap-3">
-            <div class="w-100">
-                <input type="text" [(ngModel)]="videoTitle" class="form-control" />
-            </div>
-            <button class="btn btn-primary" (click)="updateVideoTitle(videoDetails.id)">Save</button>
-        </div>
-    </ng-container>
+<div class="container w-50 mt-4">
+  <ng-container *ngIf="videoDetails && loggedInUserDetails && !videoTitleUpdated">
+    <div class="d-flex gap-3 mb-4" *ngIf="videoDetails.author.id == loggedInUserDetails.id">
+      <div class="w-100">
+        <input type="text" [(ngModel)]="videoTitle" class="form-control" />
+      </div>
+      <button class="btn btn-primary" (click)="updateVideoTitle(videoDetails.id)">Save</button>
+    </div>
+  </ng-container>
 
-    <ng-container *ngIf="videoTitleUpdated">
-        <h3>{{ videoDetails.title }}</h3>
-    </ng-container>
+  <ng-container *ngIf="videoTitleUpdated||videoDetails?.author.id != loggedInUserDetails?.id" >
+    <h4 class="my-4 font-weight-bold">{{ videoDetails?.title }}</h4>
+  </ng-container>
 
+  <ng-container *ngIf="videoDetails">
+    <video #videoPlayer width="100%" height="350" controls class="mb-2" crossorigin="anonymous"
+      (click)="togglePlayState()" (play)="videoPlaying()" (pause)="videoPaused()" (click)="showStarAnimation()">
+      <source [src]="videoDetails?.url" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="star" [@starAnimation] ></div>
+
+  </ng-container>
+
+  <div class="d-flex justify-content-between">
+    <div class="gap-3" style="display: flex; justify-content: space-between;">
+      <button type="button" class="custom-raised-button" style="display: flex; align-items: center;"
+        (click)="videoSaveReaction('snapshot')">
+        <i class="fa-solid fa-camera" style="font-size: 1rem"></i>
+        <span class="ml-2 font-weight-bold w-100" style="margin-left: 1rem;">Snapshot</span>
+      </button>
+      <button class="custom-raised-button" style="display: flex; align-items: center;" (click)="videoSaveReaction('star')">
+        <i class="fa-solid fa-star" style="font-size: 1rem"></i>
+        <span class="ml-2 font-weight-bold w-100" style="margin-left: 1rem;">Star</span>
+      </button>
+    </div>
     <ng-container *ngIf="videoDetails">
-        <!-- <video #videoPlayer width="100%" height="350" controls class="mb-2">
-            <source [src]="videoDetails?.url" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video> -->
-        <ng-container *ngIf="videoDetails">
-              <video #videoPlayer width="100%" height="350" controls class="mb-2" (click)="showStarAnimation()">
-                <source [src]="videoDetails?.url" type="video/mp4" />
-                Your browser does not support the video tag.
-                <div class="star" [@starAnimation] *ngIf="showStar"></div>
-              </video>
-            </ng-container>
-        </ng-container>
+      <div class="d-flex align-items-center gap-1">
+        <img [src]="videoDetails.author.pictureUrl" class="mr-2 rounded-circle"
+          style="max-height: 25px; border-radius: 50%;" />
+        <span>{{ videoDetails.author.name }}</span>
+      </div>
+    </ng-container>
+  </div>
 
-    <div class="d-flex justify-content-between">
-
-
-        <div class="gap-3" style="display: flex; justify-content: space-between; ">
-            <button type="button" class="custom-raised-button " style="display: flex; align-items: center;"
-                (click)="videoSaveReaction('snapshot')">
-                <i class="fa-solid fa-camera " style="font-size: 1rem"></i>
-                <span class="ml-2 font-weight-bold w-100" style="margin-left: 1rem;">Snapshot</span>
-            </button>
-
-            <button class="custom-raised-button " style="display: flex; align-items: center;"
-                (click)="videoSaveReaction('star')">
-                <i class="fa-solid fa-star" style="font-size: 1rem"></i>
-                <span class="ml-2 font-weight-bold w-100" style="margin-left: 1rem;">Star</span>
-            </button>
-
-        </div>
-
-
-        <ng-container *ngIf="loggedInUserDetails">
-            <div class="d-flex align-items-center gap-1">
-                <img [src]="loggedInUserDetails.pictureUrl" class="mr-2 rounded-circle"
-                    style="max-height: 25px; border-radius: 50%;" />
-                <span>{{ loggedInUserDetails.name }}</span>
+  <div>
+    <p class="font-weight-bold pt-6" style="padding-top: 3rem;">Reactions</p>
+    <div class="d-flex flex-column">
+      <ng-container *ngFor="let reaction of videoReactionList">
+        <div class="cursor-pointer p-3 videohover">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <i class="fa-solid"
+                [ngClass]="{'fa-star': reaction.type == 'star', 'fa-camera': reaction.type == 'snapshot'}"
+                style="font-size: 1.5rem"></i>
             </div>
-        </ng-container>
-    </div>
-
-
-
-
-    <div>
-        
-        <p class="font-weight-bold pt-6" style="padding-top: 3rem;">Reactions</p>
-
-        <div class="d-flex flex-column">
-
-
-            <ng-container *ngFor="let reaction of videoReactionList">
-                <div class="card cursor-pointer p-3 videohover">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <i class="fa-solid" [ngClass]="{
-                        'fa-star': reaction.type == 'star',
-                        'fa-camera': reaction.type == 'snapshot'
-                      }" style="font-size: 1.5rem"></i>
-                    </div>
-                    <div class="col">
-                        
-                      <div>{{ formatTimestamp(reaction?.timeframe)}}</div>
-                    </div>
-                    <div class="col-6">
-                      <ng-container *ngIf="reaction.type == 'star'; else showIfSnapshot">
-                        <p class="text-400">
-                          {{ reaction?.author?.name }} started the video ({{ reaction.postedDate | date: "MM/dd/yyyy" }})
-                        </p>
-                      </ng-container>
-                      <ng-template #showIfSnapshot>
-                        <p class="text-400">
-                          {{ reaction?.author?.name }} created a snapshot ({{ reaction.createdDate | date: "MM/dd/yyyy" }})
-                        </p>
-                      </ng-template>
-                    </div>
-                    <div class="col-3 ml-auto" *ngIf="reaction.type == 'snapshot'">
-                      <img alt="No image" [src]="reaction.imageUrl" width="96px" height="54px" class="w-3rem h-1rem">
-                    </div>
-                    <div class="col-3 " *ngIf="reaction.type == 'star'" style="width: 96px; height: 54px;">
-
-                    </div>
-                  </div>
-                </div>
+            <div class="col">
+              <div>{{ formatTimestamp(reaction?.timeframe) }}</div>
+            </div>
+            <div class="col-6">
+              <ng-container *ngIf="reaction.type == 'snapshot'; else showIfSnapshot" >
+                <p class="text-400">
+                  {{ reaction?.author?.name }} created a snapshot ({{ reaction.createdDate | date: "MM/dd/yyyy" }})
+                </p>
               </ng-container>
-              
+              <ng-template #showIfSnapshot >
+                <p class="text-400">
+                  {{ reaction?.author?.name }} started the video ({{ reaction.postedDate | date: "MM/dd/yyyy" }})
+                </p>
+              </ng-template>
 
-            <ng-template #noReactionFoundMsg>
-                <p>No Reactions Found</p>
-            </ng-template>
+
+            </div>
+            <div class="col-3 " *ngIf="reaction.type == 'snapshot'">
+              <img alt="No image" [src]="reaction.imageUrl" width="96px" height="54px" class="w-3rem h-1rem">
+            </div>
+            <div class="col-3" *ngIf="reaction.type == 'star'" >
+            
+            </div>
+          </div>
         </div>
+      </ng-container>
+      <ng-template #noReactionFoundMsg>
+        <p>No Reactions Found</p>
+      </ng-template>
     </div>
+  </div>
 </div>
