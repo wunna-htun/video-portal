@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild,ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AddReactionToVideoPayload, Videos } from 'src/app/core/models/video.interface';
@@ -12,15 +12,6 @@ import { User } from 'src/app/core/models/user.interface';
   selector: 'app-video-details',
   templateUrl: './video-details.component.html',
   styleUrls: ['./video-details.component.scss'],
-  // animations: [
-  //   trigger('starAnimation', [
-  //     state('visible', style({})),
-  //     transition(':enter', [
-  //       style({ transform: 'translateY(0)', opacity: 1 }),
-  //       animate('1s', style({ transform: 'translateY(-100%)', opacity: 0 }))
-  //     ]),
-  //   ]),
-  // ],
 
   // animations: [
   //   trigger('starAnimation', [
@@ -30,7 +21,7 @@ import { User } from 'src/app/core/models/user.interface';
   //     })),
   //     transition(':enter', [
   //       style({
-  //         transform: 'translate(0, 100%)',
+  //         transform: 'translate(0, -550%)',  // Move down by 150%
   //         opacity: 0
   //       }),
   //       animate('1s', style({
@@ -40,42 +31,69 @@ import { User } from 'src/app/core/models/user.interface';
   //     ]),
   //     transition(':leave', [
   //       animate('1s', style({
-  //         transform: 'translate(0, -100%)',
+  //         transform: 'translate(0, -550%)',  // Move up by 150%
   //         opacity: 0
   //       }))
   //     ])
   //   ])
-  // ],
+  // ]
+
+  // animations: [
+  //   trigger('starAnimation', [
+  //     state('visible', style({
+  //       transform: 'translate(0, 100%)',
+  //       opacity: 1
+  //     })),
+  //     transition(':enter', [
+  //       style({
+  //         transform: 'translate(0, 100%)',  // Move down by 550%
+  //         opacity: 1
+  //       }),
+  //       animate('1s', style({
+  //         transform: 'translate(0, -1000%)',  // Move up to its original position
+  //         opacity: 0
+  //       }))
+  //     ]),
+  //     transition(':leave', [
+  //       animate('1s', style({
+  //         transform: 'translate(0, 100%)',  // Move up by 550%
+  //         opacity: 0
+  //       }))
+  //     ])
+  //   ])
+  // ]
 
   animations: [
     trigger('starAnimation', [
       state('visible', style({
-        transform: 'translate(0, 0)',
+        transform: 'translateY(0)',
         opacity: 1
       })),
       transition(':enter', [
         style({
-          transform: 'translate(0, 100%)',
+          transform: 'translateY(100%)', // Start at the bottom
           opacity: 0
         }),
         animate('1s', style({
-          transform: 'translate(0, 0)',
+          transform: 'translateY(0)', // Move up to its original position
           opacity: 1
         }))
       ]),
       transition(':leave', [
         animate('1s', style({
-          transform: 'translate(0, -100%)',
+          transform: 'translateY(-100%)', // Move up by 100% (adjust as needed)
           opacity: 0
         }))
       ])
     ])
   ]
+  
+
 
 })
 export class VideoDetailsComponent implements OnInit {
   videoDetails?: any;
-  loggedInUserDetails: User|null=null;
+  loggedInUserDetails: User | null = null;
   videoTitleUpdated?: boolean;
   videoTitle?: string = "";
   videoReactionList?: any[];
@@ -88,8 +106,8 @@ export class VideoDetailsComponent implements OnInit {
 
 
 
-  constructor(private userService: UserService, private videoService: VideoService, private activeRoute: ActivatedRoute,    private cdf: ChangeDetectorRef,
-    ) { }
+  constructor(private userService: UserService, private videoService: VideoService, private activeRoute: ActivatedRoute, private cdf: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
     // Initialize your component properties if needed
@@ -113,46 +131,31 @@ export class VideoDetailsComponent implements OnInit {
     const payload = {
       title: this.videoTitle,
     };
-    console.log("update vidoe",payload)
-    
+    console.log("update vidoe", payload)
 
-     this.subscriptions.push(
+
+    this.subscriptions.push(
       this.videoService.updateExistingVideoDetailsById(payload, videoId).subscribe({
-        next: (res:any) => {
+        next: (res: any) => {
           console.log('Video Title updated successfully', res);
           this.videoTitleUpdated = true;
-          this.videoTitle=res.title;
+          this.videoTitle = res.title;
           this.cdf.detectChanges();
         },
       })
     );
 
-   
+
   }
 
 
   toggleAnimation() {
-    this.starState = this.starState === 'visible' ? 'invisible' : 'visible';
-  }
-
-
-  showStarAnimation() {
-    console.log("showStarAnimation")
-    console.log('showStar set to true',this.showStar); // Add this for debugging
-
-    this.showStar = true;
-    this.cdf.detectChanges(); // Trigger change detection
+    // this.starState = this.starState === 'visible' ? 'invisible' : 'visible';
+    this.starState = 'visible';
 
     setTimeout(() => {
-      this.showStar = false;
-      console.log('showStar set to false',this.showStar); // Add this for debugging
-
-      this.cdf.detectChanges(); // Trigger change detection
-
-    }, 10000); // Adjust the time as needed
-
-
-  
+      this.starState = 'invisible';
+    }, 1000); 
   }
 
   async videoSaveReaction(eventType: 'star' | 'snapshot') {
@@ -178,10 +181,10 @@ export class VideoDetailsComponent implements OnInit {
       } else {
         console.log('Video is not ready for snapshot capture.');
       }
-    }else{
+    } else {
       this.toggleAnimation();
     }
-    
+
     console.log("this.videoDetails.previewUrl", this.videoDetails.previewUrl)
 
     this.subscriptions.push(
@@ -200,28 +203,7 @@ export class VideoDetailsComponent implements OnInit {
   }
 
 
-  togglePlayState() {
-    console.log("togglePlayState ")
-    this.showStarAnimation();
-    if (this.videoPlayer.nativeElement.paused) {
-      this.videoPlayer.nativeElement.play();
-    } else {
-      this.videoPlayer.nativeElement.pause();
-    }
-  }
-
-  videoPlaying() {
-    console.log("videoPlaying")
-    this.showStarAnimation()
-    this.isVideoPlaying = true;
-    // Handle logic for when the video is playing
-  }
-
-  videoPaused() {
-    console.log("videoPaused")
-    this.isVideoPlaying = false;
-    // Handle logic for when the video is paused
-  }
+  
 
 
   getActiveLoggedUserDetails() {

@@ -23,42 +23,6 @@
   .videohover:hover{
     background-color: #EFEFEF;
   }
-  
-
-  // .star {
-  //   position: absolute;
-  //   bottom: 0;
-  //   right: 0;
-  //   width: 30px;
-  //   height: 30px;
-  //   background: gold;
-  //   mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="black" d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>');
-  //   mask-size: contain;
-  //   mask-repeat: no-repeat;
-  //   animation: star-fade 1s linear forwards;
-  //   opacity: 0;
-  // }
-  
-  // @keyframes star-fade {
-  //   from {
-  //     transform: translateY(0);
-  //   }
-  //   to {
-  //     transform: translateY(-100%);
-  //     opacity: 0;
-  //   }
-  // }
-  
-
-  // .star {
-  //   position: absolute;
-  //   bottom: 10px;
-  //   right: 10px;
-  //   font-size: 24px;
-  //   color: gold;
-  //   opacity: 0; /* Initial opacity */
-  // }
-  
 
   .star {
     position: absolute;
@@ -66,30 +30,14 @@
     right: 30%; /* Adjust to position it at the bottom right corner */
     opacity: 0;
     color: #fff;
-    transform: translateY(100%);
+    transform: translateY(0);
     transition: all 1s;
   }
-
-  // .star-overlay {
-  //   position: absolute;
-  //   bottom: 10px; /* Adjust to position it at the bottom */
-  //   right: 10px; /* Adjust to position it at the right */
-  //   font-size: 24px; /* Adjust the size as needed */
-  //   color: gold; /* Star icon color */
-  //   opacity: 0; /* Initial opacity, it can be changed when needed */
-  //   z-index: 1; /* Ensure it's on top of the video */
-  //   transition: all 1s;
-  // }
-  
 
   .video-conatiner{
     position: relative;
   }
 
-  // .star{
-  //   position: absolute;
-  //   bottom: 20%;
-  //   right: 30%;
-  // }
+
   
   
