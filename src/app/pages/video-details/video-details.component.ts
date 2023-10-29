@@ -1,13 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Videos } from 'src/app/core/models/video.interface';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { AddReactionToVideoPayload, Videos } from 'src/app/core/models/video.interface';
 import { UserService } from 'src/app/core/services/user.service';
 import { VideoService } from 'src/app/core/services/video.service';
-
+import html2canvas from 'html2canvas';
+import { environment } from 'src/environments/environment';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-video-details',
   templateUrl: './video-details.component.html',
-  styleUrls: ['./video-details.component.scss']
+  styleUrls: ['./video-details.component.scss'],
+  animations: [
+    trigger('starAnimation', [
+      state('visible', style({})),
+      transition(':enter', [
+        style({ transform: 'translateY(0)', opacity: 1 }),
+        animate('1s', style({ transform: 'translateY(-100%)', opacity: 0 }))
+      ]),
+    ]),
+  ],
+  
 })
 export class VideoDetailsComponent implements OnInit {
   videoDetails?: any;
@@ -15,6 +28,13 @@ export class VideoDetailsComponent implements OnInit {
   videoTitleUpdated?: boolean;
   videoTitle?: string ="";
   videoReactionList?: any[];
+  subscriptions: Subscription[] = [];
+  showStar: boolean = false;
+
+
+  @ViewChild('videoPlayer') videoPlayer!: ElementRef;
+
+
 
   constructor(private userService :UserService,private videoService:VideoService,private activeRoute:ActivatedRoute) {}
 
@@ -33,12 +53,65 @@ export class VideoDetailsComponent implements OnInit {
 
   }
 
+
+  ngAfterViewInit() {
+    // The @ViewChild element is available here, you can access it safely.
+    console.log('Video player element is available:', this.videoPlayer);
+  }
+
   updateVideoTitle(videoId: string) {
     // Implement the logic to update the video title here
   }
 
-  videoSaveReaction(reactionType: string) {
-    // Implement the logic to save a reaction here
+
+  showStarAnimation() {
+    console.log("showStarAnimation")
+    this.showStar = true;
+    setTimeout(() => {
+      this.showStar = false;
+    }, 1000); // Adjust the time as needed
+  }
+
+ async videoSaveReaction(eventType: 'star' | 'snapshot') {
+    console.log(
+      'Video save Reaction',
+      this.videoPlayer.nativeElement.currentTime
+    );
+
+    const payload: AddReactionToVideoPayload = {
+      videoId: this.videoDetails.id,
+      type: eventType,
+      timeframe: this.videoPlayer.nativeElement.currentTime,
+    };
+
+
+    if (eventType === 'snapshot') {
+
+      html2canvas(this.videoPlayer.nativeElement).then((canvas) => {
+        const snapshotDataUri = canvas.toDataURL('image/png');
+        console.log('Snapshot taken and saved to payload', snapshotDataUri);
+        payload.dataUri=snapshotDataUri
+
+        // ... (the rest of your code)
+      });
+
+ 
+    } 
+    console.log("this.videoDetails.previewUrl",this.videoDetails.previewUrl)
+
+    this.subscriptions.push(
+      this.videoService.reactToExistingVideoById(payload).subscribe({
+        next: (reactionRes) => {
+          console.log('Reaction save success', reactionRes);
+          this.getVideoReactionsById(this.videoDetails.id);
+        },
+        error: (error) => {
+          console.error('Video Reaction API Failed', error);
+        },
+      })
+    );
+
+   
   }
 
 
@@ -50,21 +123,7 @@ export class VideoDetailsComponent implements OnInit {
 
 
   getVideoDetailById(videoId: any) {
-    // this.subscriptions.push(
-    //   this.videoService.getVideoDetailsById(videoId).subscribe({
-    //     next: (videoDetail: any) => {
-    //       console.log('Success', videoDetail);
-    //       this.videoDetails = videoDetail;
-    //       this.videoTitle = videoDetail.title;
-    //     },
-    //     error: (error) => {
-    //       console.error('Get indetail video api failed', error);
-    //     },
-    //   })
-    // );
-
-
-
+    this.subscriptions.push(
       this.videoService.getVideoDetailsById(videoId).subscribe({
         next: (videoDetail: any) => {
           console.log('Success', videoDetail);
@@ -75,21 +134,38 @@ export class VideoDetailsComponent implements OnInit {
           console.error('Get indetail video api failed', error);
         },
       })
+    );
+
+
+
+ 
   }
 
   getVideoReactionsById(videoId: any) {
-    // this.subscriptions.push(
-    //   this.videoService.getVideoReactionById(videoId).subscribe({
-    //     next: (reactionList) => {
-    //       console.log('reactionList', reactionList);
-    //       this.videoReactionList = reactionList.reverse();
-    //     },
-    //     error: (error) => {
-    //       console.error('Video Reaction API Got Failed', error);
-    //     },
-    //   })
-    // );
+    this.subscriptions.push(
+      this.videoService.getVideoReactionById(videoId).subscribe({
+        next: (reactionList) => {
+          console.log('reactionList', reactionList);
+          this.videoReactionList = reactionList.reverse();
+        },
+        error: (error) => {
+          console.error('Video Reaction API Got Failed', error);
+        },
+      })
+    );
+  }
+
+
+  formatTimestamp(timestamp: number): string {
+    const hours = Math.floor(timestamp / 3600);
+    const minutes = Math.floor((timestamp % 3600) / 60);
+    const seconds = Math.floor(timestamp % 60);
+  
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
 
 }
+
+
+

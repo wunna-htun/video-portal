@@ -1,0 +1,55 @@
+.custom-btn{
+    background-color: transparent;
+    color: #64748B;
+    border: 1px solid;
+    width: 2000px;
+}
+
+.custom-raised-button {
+    background-color: #fff;
+    color: #171717;
+    border: 1px solid #64748B;
+    padding: 0.8rem 0.8rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    width: 150px !important;
+  }
+  
+  .custom-raised-button:hover {
+    background-color: #EFEFEF;
+  }
+  
+  .videohover:hover{
+    background-color: #EFEFEF;
+  }
+  
+
+  .star {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: gold;
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="black" d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    animation: star-fade 1s linear forwards;
+    opacity: 0;
+  }
+  
+  @keyframes star-fade {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+  
+  
+  
+  
+  

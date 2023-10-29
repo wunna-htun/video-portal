@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { VideoDetailsComponent } from './pages/video-details/video-details.component';
 import { VideoListComponent } from './pages/video-list/video-list.component';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule ,
   ],
   providers: [],
   bootstrap: [AppComponent]

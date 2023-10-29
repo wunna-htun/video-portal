@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Videos, VideoReaction, UpdateExistingVideoPayload, AddReactionToVideoPayload } from '../models/video.interface';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,24 @@ export class VideoService {
     const updateReactionToVideoByIdAPI = `${environment.URL}/api/videos/${payload.videoId}/reactions`;
     return this.http.post(updateReactionToVideoByIdAPI, payload);
   }
+
+   
+
+
+
+
+  fetchImageAndConvertToBase64(imageUrl: string): Observable<string> {
+    return this.http.get(imageUrl, { responseType: 'blob' }).pipe(
+      map((imageBlob: Blob) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(imageBlob);
+        return reader.result as string;
+      })
+    );
+  }
+  
+
+
 
 
 }
